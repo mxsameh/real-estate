@@ -1,5 +1,52 @@
-<script>
+<script lang="ts">
+
+  let notNumerError = false;
+  const formatNumber = (e : any) =>
+  {
+    let value = e.target.value
+    const regex = /^[0-9]+$/
+    const lastChar = value.slice(-1)
+
+    // If a letter is pressed
+    if(!lastChar.match(regex))
+    {
+      notNumerError = true
+      console.log( 'please enter a number' );
+      e.target.value = value.slice(0,-1)
+      return
+    }
+
+    notNumerError = false;
+    // Change value to number
+    value = value.replaceAll(',','')
+    const number = parseInt(value)
+
+    // Check if number
+    if(!Number.isNaN(number))
+    {
+      // Format number with commas
+      let formatedNumber = number.toLocaleString()
+      e.target.value = formatedNumber;
+    }
+
+  }
   
+
+  // Loan
+  const loanYears = [2,3,4,5,6,7]
+  let selectedLoanYear : number;
+  const selectLoanYear = (e: any) =>
+{
+  selectedLoanYear = parseInt(e.target.innerText)
+}
+
+// Down Payment
+const downPayments = [20,25,30]
+  let selectedDownPayment : number;
+  const selectDownPayment = (e: any) =>
+{
+  selectedDownPayment = parseInt(e.target.innerText)
+}
 </script>
 
 <section class="plan">
@@ -7,27 +54,27 @@
 
   <div class="price">
     <h2 class="price__title">property price</h2>
-    <input class="price__amount" type="number" placeholder="Enter price">
+    <input class="price__amount" type="text" placeholder="Enter price" on:keyup={formatNumber}>
+    {#if notNumerError}
+    <p class="price__error">* Please enter a number</p>
+    {/if}
   </div>
 
   <div class="loan">
     <h2 class="loan__title">loan duration</h2>
     <ul class="loan__duration">
-      <li class="loan__year">2</li>
-      <li class="loan__year">3</li>
-      <li class="loan__year">4</li>
-      <li class="loan__year">5</li>
-      <li class="loan__year">6</li>
-      <li class="loan__year">7</li>
+      {#each loanYears as loanYear,i }
+      <li class={selectedLoanYear == loanYear ? "loan__year loan__year--active":"loan__year"} on:click={selectLoanYear}>{loanYear}{#if i == loanYears.length-1}+{/if}</li>
+      {/each}
     </ul>
   </div>
 
   <div class="down">
     <h2 class="down__title">down payment</h2>
     <ul class="down__payments">
-      <li class="down__percent">20 %</li>
-      <li class="down__percent">25 %</li>
-      <li class="down__percent">30 %</li>
+      {#each downPayments as downPayment }
+      <li class={selectedDownPayment == downPayment ? "down__percent down__percent--active" : "down__percent"} on:click={selectDownPayment}>{downPayment} %</li>
+      {/each}
     </ul>
   </div>
 
@@ -76,19 +123,12 @@
       border-bottom: 1px var(--gray300) solid;
       width: 100%;
     }
-
-
-    /* Chrome, Safari, Edge, Opera */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+    &__error{
+      font-size: 12px;
+      margin-top: 8px;
+      color: rgb(255, 40, 40);
     }
 
-    /* Firefox */
-    input[type=number] {
-      -moz-appearance: textfield;
-    }
   }
 
   .loan{
@@ -106,8 +146,8 @@
       gap: 16px;
     }
     &__year{
-        width: 28px;
-        height: 28px;
+        width: 32px;
+        height: 32px;
         border-radius: 50%;
         border: 1px var(--gray300) solid; 
         color: white;
@@ -119,6 +159,7 @@
         &--active{
           background-color: var(--blue);
           border: 1px var(--blue) solid; 
+          color: white;
         }
     }
 

@@ -16,7 +16,7 @@
     </a>
 
     <nav class="nav">
-      <ul class="nav__list">
+      <ul class={color == 'black'? 'nav__list black' : 'nav__list white'} >
         <a class="nav__link" href="/">home</a>
         <a class="nav__link" href="/projects">projects</a>
         <a class="nav__link" href="/developers">developers</a>
@@ -85,6 +85,12 @@
       }
     }
 
+  }
+  .white{
+    color: white;
+  }
+  .black{
+    color: black;
   }
 
   .menu__icon{

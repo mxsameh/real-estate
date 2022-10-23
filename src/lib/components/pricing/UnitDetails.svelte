@@ -48,6 +48,16 @@
     </ul>
   </div>
 
+  <div class="type">
+    <h1 class="unit__heading">type</h1>
+    <select name="type" id="type" class="type__list">
+      <option class="type__option" value="apartment">apartment</option>
+      <option class="type__option" value="apartment">duplex</option>
+      <option class="type__option" value="apartment">penthouse</option>
+      <option class="type__option" value="apartment">studio</option>
+    </select>
+  </div>
+
   <div class="details">
     <h1 class="unit__heading">unit details</h1>
     <input class="details__input" type="text" placeholder="Write any additional details about your unit">
@@ -157,6 +167,19 @@
       padding: 8px 12px;
       border-radius: 4px;
       white-space: nowrap; 
+    }
+  }
+
+  .type{
+    margin-top: 32px;
+
+    &__list{
+      background-color: red;
+
+    }
+    &__option{
+      font-size: 14px;
+      color: white
     }
   }
 
